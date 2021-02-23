@@ -1,6 +1,8 @@
 #include "geometry.h"
 #include <cmath>
 #include <iostream>
+
+
     Point::Point(){
         this->x = 0;
         this->y = 0;
@@ -13,14 +15,22 @@
         this->x = Copy_point.getX();
         this->y = Copy_point.getY();
     }
-    [[nodiscard]] int Point::getX() const{ //?
+    Point& Point::operator=(const Point &ExistingPoint){
+        if (&ExistingPoint == this)
+            return *this;
+        this->x = ExistingPoint.getX();
+        this->y = ExistingPoint.getY();
+        return *this;
+    }
+    [[nodiscard]] int Point::getX() const{
         return this->x;
     }
     [[nodiscard]] int Point::getY() const{
         return this->y;
     }
 
-    PolygonalChain::PolygonalChain(int numberOfPoints, Point *array){ // затемнение?
+
+    PolygonalChain::PolygonalChain(int numberOfPoints, Point *array){
         this->NumberOfPoints = numberOfPoints;
         Array = new Point[numberOfPoints + 1];
         for (int i = 0; i < numberOfPoints; ++i) {
@@ -29,12 +39,19 @@
     }
     PolygonalChain::PolygonalChain(const PolygonalChain &CopyPolygonalChain){
         this->NumberOfPoints = CopyPolygonalChain.NumberOfPoints;
-        this->Array = CopyPolygonalChain.Array;
+        this->Array = new Point[NumberOfPoints];
+        for (int i = 0; i < NumberOfPoints; ++i) {
+            this->Array[i] = CopyPolygonalChain.Array[i];
+        }
     }
-
-//    PolygonalChain::PolygonalChain() = default;
-
-
+    PolygonalChain& PolygonalChain::operator=(const PolygonalChain &ExistingPolygonalChain){
+        if (&ExistingPolygonalChain == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingPolygonalChain.getN();
+        this->Array = ExistingPolygonalChain.getArray();
+        return *this;
+    }
     double PolygonalChain::perimeter() const {
         double Perimeter = 0;
         for (int i = 0; i < (NumberOfPoints - 1); ++i) {
@@ -45,12 +62,14 @@
     [[nodiscard]] int PolygonalChain::getN() const{
         return this->NumberOfPoints;
     }
-
-[[maybe_unused]] Point * PolygonalChain::getArray() const {
+    [[maybe_unused]] Point * PolygonalChain::getArray() const {
         return this->Array;
     }
     Point PolygonalChain::getPoint(int number) const {
         return this->Array[number];
+    }
+    PolygonalChain::~PolygonalChain(){
+        delete Array;
     }
 
 
@@ -58,18 +77,30 @@
         this->NumberOfPoints = numberOfPoints + 1;
         Array[numberOfPoints] = array[0];
     }
-    ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain) : PolygonalChain(CopyClosedPolygonalChain) {
-        this->NumberOfPoints = CopyClosedPolygonalChain.NumberOfPoints;
-        this->Array = CopyClosedPolygonalChain.Array;
+    ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain) : PolygonalChain(CopyClosedPolygonalChain) {}
+    ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain &ExistingClosedPolygonalChain){
+        if (&ExistingClosedPolygonalChain == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingClosedPolygonalChain.getN();
+        this->Array = ExistingClosedPolygonalChain.getArray();
+        return *this;
     }
     [[nodiscard]] int ClosedPolygonalChain::getN() const{
         return this->NumberOfPoints - 1;
     }
+    ClosedPolygonalChain::~ClosedPolygonalChain(){}
+
 
     Polygon::Polygon(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-    Polygon::Polygon(const Polygon &CopyPolygon) : ClosedPolygonalChain(CopyPolygon) {
-        this->NumberOfPoints = CopyPolygon.NumberOfPoints;
-        this->Array = CopyPolygon.Array;
+    Polygon::Polygon(const Polygon &CopyPolygon) : ClosedPolygonalChain(CopyPolygon) {}
+    Polygon& Polygon::operator=(const Polygon &ExistingPolygon){
+        if (&ExistingPolygon == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingPolygon.getN();
+        this->Array = ExistingPolygon.getArray();
+        return *this;
     }
     double Polygon::area() const {
         double Area = 0;
@@ -91,13 +122,18 @@
         TriangleArea = sqrt(HalfPerimeter * (HalfPerimeter - SideA) * (HalfPerimeter - SideB) * (HalfPerimeter - SideC));
         return TriangleArea;
     }
+    Polygon::~Polygon(){}
 
 
     Triangle::Triangle(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-
-[[maybe_unused]] Triangle::Triangle(const Triangle &CopyTriangle) : ClosedPolygonalChain(CopyTriangle) {
-        this->NumberOfPoints = CopyTriangle.NumberOfPoints;
-        this->Array = CopyTriangle.Array;
+    [[maybe_unused]] Triangle::Triangle(const Triangle &CopyTriangle) : ClosedPolygonalChain(CopyTriangle) {}
+    Triangle& Triangle::operator=(const Triangle &ExistingTriangle){
+        if (&ExistingTriangle == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingTriangle.getN();
+        this->Array = ExistingTriangle.getArray();
+        return *this;
     }
     bool Triangle::hasRightAngle() const {
         double SideA, SideB, SideC;
@@ -109,8 +145,7 @@
         else
             return false;
     }
-
-[[maybe_unused]] double Triangle::area(){
+    [[maybe_unused]] double Triangle::area(){
         double SideA, SideB, SideC, Area;
         SideA = pow(pow(Array[0].getX() - Array[1].getX(), 2) + pow(Array[0].getY() - Array[1].getY(), 2), 0.5);
         SideB = pow(pow(Array[0].getX() - Array[2].getX(), 2) + pow(Array[0].getY() - Array[2].getY(), 2), 0.5);
@@ -119,12 +154,18 @@
         Area = sqrt(HalfPerimeter * (HalfPerimeter - SideA) * (HalfPerimeter - SideB) * (HalfPerimeter - SideC));
         return Area;
     }
+    Triangle::~Triangle(){}
 
 
     Trapezoid::Trapezoid(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-    Trapezoid::Trapezoid(const Trapezoid &CopyTrapezoid) : ClosedPolygonalChain(CopyTrapezoid) {
-        this->NumberOfPoints = CopyTrapezoid.NumberOfPoints;
-        this->Array = CopyTrapezoid.Array;
+    Trapezoid::Trapezoid(const Trapezoid &CopyTrapezoid) : ClosedPolygonalChain(CopyTrapezoid) {}
+    Trapezoid& Trapezoid::operator=(const Trapezoid &ExistingTrapezoid){
+        if (&ExistingTrapezoid == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingTrapezoid.getN();
+        this->Array = ExistingTrapezoid.getArray();
+        return *this;
     }
     double Trapezoid::height() const {
         double Height, cos, sin, CoordinateAX, CoordinateAY, CoordinateBX, CoordinateBY;
@@ -137,17 +178,24 @@
         Height = sqrt(pow(CoordinateAX, 2) + pow(CoordinateAY, 2)) * sin;
         return Height;
     }
-
-[[maybe_unused]] [[nodiscard]] double Trapezoid::area() const{
+    [[maybe_unused]] [[nodiscard]] double Trapezoid::area() const{
         double Area, SideA, SideB;
         SideA = pow(pow(Array[0].getX() - Array[3].getX(), 2) + pow(Array[0].getY() - Array[3].getY(), 2), 0.5);
         SideB = pow(pow(Array[1].getX() - Array[2].getX(), 2) + pow(Array[1].getY() - Array[2].getY(), 2), 0.5);
         Area = this->height() * (SideA + SideB) / 2;
         return Area;
     }
+    Trapezoid::~Trapezoid(){}
+
 
     RegularPolygon::RegularPolygon(int numberOfPoints, Point *array) : Polygon(numberOfPoints, array) {}
-    RegularPolygon::RegularPolygon(const RegularPolygon &CopyRegularPolygon) : Polygon(CopyRegularPolygon) {
-        this->NumberOfPoints = CopyRegularPolygon.NumberOfPoints;
-        this->Array = CopyRegularPolygon.Array;
+    RegularPolygon::RegularPolygon(const RegularPolygon &CopyRegularPolygon) : Polygon(CopyRegularPolygon) {}
+    RegularPolygon& RegularPolygon::operator=(const RegularPolygon &ExistingRegularPolygon){
+        if (&ExistingRegularPolygon == this)
+            return *this;
+        delete Array;
+        this->NumberOfPoints = ExistingRegularPolygon.getN();
+        this->Array = ExistingRegularPolygon.getArray();
+        return *this;
     }
+    RegularPolygon::~RegularPolygon(){}
