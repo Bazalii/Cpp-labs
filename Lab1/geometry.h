@@ -10,8 +10,8 @@ public:
     Point(int x, int y);
     Point(const Point &Copy_point);
     Point& operator=(const Point&);
-    [[nodiscard]] int getX() const;
-    [[nodiscard]] int getY() const;
+    int getX() const;
+    int getY() const;
 };
 
 class PolygonalChain{
@@ -22,11 +22,11 @@ public:
     PolygonalChain(int numberOfPoints, Point *array);
     PolygonalChain(const PolygonalChain &CopyPolygonalChain);
     PolygonalChain& operator=(const PolygonalChain&);
-    [[nodiscard]] double perimeter() const;
-    [[nodiscard]] virtual int getN() const;
-    [[maybe_unused]] [[nodiscard]] Point * getArray() const;
-    [[nodiscard]] Point getPoint(int number) const;
-    ~PolygonalChain();
+    double perimeter() const;
+    virtual int getN() const;
+    Point * getArray() const;
+    Point getPoint(int number) const;
+    virtual ~PolygonalChain();
 };
 
 class ClosedPolygonalChain : public PolygonalChain{
@@ -34,7 +34,7 @@ public:
     ClosedPolygonalChain(int numberOfPoints, Point *array);
     ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain);
     ClosedPolygonalChain& operator=(const ClosedPolygonalChain&);
-    [[nodiscard]] int getN() const override;
+    int getN() const override;
     ~ClosedPolygonalChain();
 };
 
@@ -43,7 +43,7 @@ public:
     Polygon(int numberOfPoints, Point *array);
     Polygon(const Polygon &CopyPolygon);
     Polygon& operator=(const Polygon&);
-    [[nodiscard]] double area() const;
+    double area() const;
     static double triangle_area(const Point& point1, const Point& point2, const Point& point3) ;
     ~Polygon();
 };
@@ -51,10 +51,10 @@ public:
 class Triangle: public ClosedPolygonalChain{
 public:
     Triangle(int numberOfPoints, Point *array);
-    [[maybe_unused]] Triangle(const Triangle &CopyTriangle);
+    Triangle(const Triangle &CopyTriangle);
     Triangle& operator=(const Triangle&);
-    [[nodiscard]] bool hasRightAngle() const;
-    [[maybe_unused]] double area();
+    bool hasRightAngle() const;
+    double area();
     ~Triangle();
 };
 
@@ -63,8 +63,8 @@ public:
     Trapezoid(int numberOfPoints, Point *array);
     Trapezoid(const Trapezoid &CopyTrapezoid);
     Trapezoid& operator=(const Trapezoid&);
-    [[nodiscard]] double height() const;
-    [[maybe_unused]] [[nodiscard]] double area() const;
+    double height() const;
+    double area() const;
     ~Trapezoid();
 };
 
