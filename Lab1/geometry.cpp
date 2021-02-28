@@ -32,7 +32,7 @@
 
     PolygonalChain::PolygonalChain(int numberOfPoints, Point *array){
         this->NumberOfPoints = numberOfPoints;
-        this->Array = new Point[numberOfPoints + 1];
+        this->Array = new Point[numberOfPoints];
         for (int i = 0; i < numberOfPoints; ++i) {
             this->Array[i] = array[i];
         }
@@ -76,8 +76,7 @@
     }
 
 
-    ClosedPolygonalChain::ClosedPolygonalChain(int numberOfPoints, Point *array) : PolygonalChain(numberOfPoints, array) {
-        this->NumberOfPoints = numberOfPoints + 1;
+    ClosedPolygonalChain::ClosedPolygonalChain(int numberOfPoints, Point *array) : PolygonalChain(numberOfPoints + 1, array) {
         this->Array[numberOfPoints] = array[0];
     }
     ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain) : PolygonalChain(CopyClosedPolygonalChain) {}
