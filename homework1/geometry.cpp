@@ -1,7 +1,7 @@
 #include "geometry.h"
 #include <cmath>
 #include <iostream>
-
+//todo indenation what
 
     Point::Point(){
         this->x = 0;
@@ -11,6 +11,7 @@
         this->x = x;
         this->y = y;
     }
+    //todo no capital letters for variables
     Point::Point(const Point &Copy_point){
         this->x = Copy_point.getX();
         this->y = Copy_point.getY();
@@ -99,6 +100,7 @@
 
     Polygon::Polygon(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
     Polygon::Polygon(const Polygon &CopyPolygon) : ClosedPolygonalChain(CopyPolygon) {}
+    //todo copy-paster opeartor
     Polygon& Polygon::operator=(const Polygon &ExistingPolygon){
         if (&ExistingPolygon == this)
             return *this;
@@ -112,6 +114,7 @@
     }
     double Polygon::area() const {
         double Area = 0;
+        //todo Heron's formula is banned
         if (this->getN() == 3)
             Area += triangle_area(Array[0], Array[1], Array[2]);
         else{
@@ -143,11 +146,13 @@
         }
         return *this;
     }
+    //todo without sqrt
     bool Triangle::hasRightAngle() const {
         double SideA, SideB, SideC;
         SideA = pow(pow(Array[0].getX() - Array[1].getX(), 2) + pow(Array[0].getY() - Array[1].getY(), 2), 0.5);
         SideB = pow(pow(Array[0].getX() - Array[2].getX(), 2) + pow(Array[0].getY() - Array[2].getY(), 2), 0.5);
         SideC = pow(pow(Array[1].getX() - Array[2].getX(), 2) + pow(Array[1].getY() - Array[2].getY(), 2), 0.5);
+        //todo return expression
         if  (pow(SideA, 2) == pow(SideB, 2) + pow(SideC, 2) || pow(SideB, 2) == pow(SideA, 2) + pow(SideC, 2) || pow(SideC, 2) == pow(SideA, 2) + pow(SideB, 2))
             return true;
         else
@@ -195,7 +200,7 @@
     }
     Trapezoid::~Trapezoid(){}
 
-
+    //todo area and perimeter
     RegularPolygon::RegularPolygon(int numberOfPoints, Point *array) : Polygon(numberOfPoints, array) {}
     RegularPolygon::RegularPolygon(const RegularPolygon &CopyRegularPolygon) : Polygon(CopyRegularPolygon) {}
     RegularPolygon& RegularPolygon::operator=(const RegularPolygon &ExistingRegularPolygon){

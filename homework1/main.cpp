@@ -1,6 +1,7 @@
 #include "geometry.h"
 #include <iostream>
 #include <cassert>
+
 using namespace std;
 
 const double EPS = 1e-9;
