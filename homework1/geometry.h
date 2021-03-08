@@ -9,7 +9,7 @@ private:
 public:
     Point();
     Point(int x, int y);
-    Point(const Point &Copy_point);
+    Point(const Point &other);
     Point& operator=(const Point&);
     int getX() const;
     int getY() const;
@@ -17,11 +17,11 @@ public:
 
 class PolygonalChain{
 protected:
-    int NumberOfPoints = 0;
-    Point *Array;
+    int number_of_points = 0;
+    Point *array_of_points;
 public:
-    PolygonalChain(int numberOfPoints, Point *array);
-    PolygonalChain(const PolygonalChain &CopyPolygonalChain);
+    PolygonalChain(int number, Point *array);
+    PolygonalChain(const PolygonalChain &other);
     PolygonalChain& operator=(const PolygonalChain&);
     double perimeter() const;
     virtual int getN() const;
@@ -32,18 +32,18 @@ public:
 
 class ClosedPolygonalChain : public PolygonalChain{
 public:
-    ClosedPolygonalChain(int numberOfPoints, Point *array);
-    ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain);
-    ClosedPolygonalChain& operator=(const ClosedPolygonalChain&);
+    ClosedPolygonalChain(int number, Point *array);
+    ClosedPolygonalChain(const ClosedPolygonalChain &other);
+    using PolygonalChain::operator=;
     int getN() const override;
     ~ClosedPolygonalChain();
 };
 
 class Polygon : public ClosedPolygonalChain{
 public:
-    Polygon(int numberOfPoints, Point *array);
+    Polygon(int number, Point *array);
     Polygon(const Polygon &CopyPolygon);
-    Polygon& operator=(const Polygon&);
+    using PolygonalChain::operator=;
     double area() const;
     static double triangle_area(const Point& point1, const Point& point2, const Point& point3) ;
     ~Polygon();
@@ -51,9 +51,9 @@ public:
 
 class Triangle: public ClosedPolygonalChain{
 public:
-    Triangle(int numberOfPoints, Point *array);
+    Triangle(int number, Point *array);
     Triangle(const Triangle &CopyTriangle);
-    Triangle& operator=(const Triangle&);
+    using PolygonalChain::operator=;
     bool hasRightAngle() const;
     double area();
     ~Triangle();
@@ -61,9 +61,9 @@ public:
 
 class Trapezoid: public ClosedPolygonalChain{
 public:
-    Trapezoid(int numberOfPoints, Point *array);
-    Trapezoid(const Trapezoid &CopyTrapezoid);
-    Trapezoid& operator=(const Trapezoid&);
+    Trapezoid(int number, Point *array);
+    Trapezoid(const Trapezoid &other);
+    using PolygonalChain::operator=;
     double height() const;
     double area() const;
     ~Trapezoid();
@@ -71,9 +71,12 @@ public:
 
 class RegularPolygon: public Polygon{
 public:
-    RegularPolygon(int numberOfPoints, Point *array);
-    RegularPolygon(const RegularPolygon &CopyRegularPolygon);
-    RegularPolygon& operator=(const RegularPolygon&);
+    RegularPolygon(int number, Point *array);
+    RegularPolygon(const RegularPolygon &other);
+    double getSide() const;
+    double perimeter() const;
+    double area() const;
+    using PolygonalChain::operator=;
     ~RegularPolygon();
 };
 

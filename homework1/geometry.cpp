@@ -1,217 +1,182 @@
 #include "geometry.h"
 #include <cmath>
 #include <iostream>
-//todo indenation what
+//fixed indenation what
 
-    Point::Point(){
-        this->x = 0;
-        this->y = 0;
-    }
-    Point::Point(int x, int y){
-        this->x = x;
-        this->y = y;
-    }
-    //todo no capital letters for variables
-    Point::Point(const Point &Copy_point){
-        this->x = Copy_point.getX();
-        this->y = Copy_point.getY();
-    }
-    Point& Point::operator=(const Point &ExistingPoint){
-        if (&ExistingPoint == this)
-            return *this;
-        this->x = ExistingPoint.getX();
-        this->y = ExistingPoint.getY();
+Point::Point(){
+    this->x = 0;
+    this->y = 0;
+}
+Point::Point(int x, int y){
+    this->x = x;
+    this->y = y;
+}
+//fixed no capital letters for variables
+Point::Point(const Point &other){
+    this->x = other.getX();
+    this->y = other.getY();
+}
+Point& Point::operator=(const Point &other){
+    if (&other == this)
         return *this;
-    }
-    int Point::getX() const{
-        return this->x;
-    }
-    int Point::getY() const{
-        return this->y;
-    }
+    this->x = other.getX();
+    this->y = other.getY();
+    return *this;
+}
+int Point::getX() const{
+    return this->x;
+}
+int Point::getY() const{
+    return this->y;
+}
 
 
-    PolygonalChain::PolygonalChain(int numberOfPoints, Point *array){
-        this->NumberOfPoints = numberOfPoints;
-        this->Array = new Point[numberOfPoints];
-        for (int i = 0; i < numberOfPoints; ++i) {
-            this->Array[i] = array[i];
-        }
+PolygonalChain::PolygonalChain(int number, Point *array){
+    this->number_of_points = number;
+    this->array_of_points = new Point[number];
+    for (int i = 0; i < number; ++i) {
+        this->array_of_points[i] = array[i];
     }
-    PolygonalChain::PolygonalChain(const PolygonalChain &CopyPolygonalChain){
-        this->NumberOfPoints = CopyPolygonalChain.NumberOfPoints;
-        this->Array = new Point[this->NumberOfPoints];
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = CopyPolygonalChain.Array[i];
-        }
+}
+PolygonalChain::PolygonalChain(const PolygonalChain &other){
+    this->number_of_points = other.number_of_points;
+    this->array_of_points = new Point[this->number_of_points];
+    for (int i = 0; i < this->number_of_points; ++i) {
+        this->array_of_points[i] = other.array_of_points[i];
     }
-    PolygonalChain& PolygonalChain::operator=(const PolygonalChain &ExistingPolygonalChain){
-        if (&ExistingPolygonalChain == this)
-            return *this;
-        delete []this->Array;
-        this->NumberOfPoints = ExistingPolygonalChain.getN();
-        this->Array = new Point[this->NumberOfPoints];
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingPolygonalChain.Array[i];
-        }
+}
+PolygonalChain& PolygonalChain::operator=(const PolygonalChain &other){
+    if (&other == this)
         return *this;
+    delete []this->array_of_points;
+    this->number_of_points = other.getN();
+    this->array_of_points = new Point[this->number_of_points];
+    for (int i = 0; i < this->number_of_points; ++i) {
+        this->array_of_points[i] = other.array_of_points[i];
     }
-    double PolygonalChain::perimeter() const {
-        double Perimeter = 0;
-        for (int i = 0; i < (NumberOfPoints - 1); ++i) {
-            Perimeter += pow(pow(Array[i].getX() - Array[i + 1].getX(), 2) + pow(Array[i].getY() - Array[i + 1].getY(), 2), 0.5);
-        }
-        return Perimeter;
+    return *this;
+}
+double PolygonalChain::perimeter() const {
+    double pc_perimeter = 0;
+    for (int i = 0; i < (number_of_points - 1); ++i) {
+        pc_perimeter += pow(pow(array_of_points[i].getX() - array_of_points[i + 1].getX(), 2) + pow(array_of_points[i].getY() - array_of_points[i + 1].getY(), 2), 0.5);
     }
-    int PolygonalChain::getN() const{
-        return this->NumberOfPoints;
-    }
-    Point * PolygonalChain::getArray() const {
-        return this->Array;
-    }
-    Point PolygonalChain::getPoint(int number) const {
-        return this->Array[number];
-    }
-    PolygonalChain::~PolygonalChain(){
-        delete []this->Array;
-    }
+    return pc_perimeter;
+}
+int PolygonalChain::getN() const{
+    return this->number_of_points;
+}
+Point * PolygonalChain::getArray() const {
+    return this->array_of_points;
+}
+Point PolygonalChain::getPoint(int number) const {
+    return this->array_of_points[number];
+}
+PolygonalChain::~PolygonalChain(){
+    delete []this->array_of_points;
+}
 
 
-    ClosedPolygonalChain::ClosedPolygonalChain(int numberOfPoints, Point *array) : PolygonalChain(numberOfPoints + 1, array) {
-        this->Array[numberOfPoints] = array[0];
-    }
-    ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &CopyClosedPolygonalChain) : PolygonalChain(CopyClosedPolygonalChain) {}
-    ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain &ExistingClosedPolygonalChain){
-        if (&ExistingClosedPolygonalChain == this)
-            return *this;
-        delete []this->Array;
-        this->NumberOfPoints = ExistingClosedPolygonalChain.getN();
-        this->Array = new Point[this->NumberOfPoints];
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingClosedPolygonalChain.Array[i];
-        }
-        return *this;
-    }
-    int ClosedPolygonalChain::getN() const{
-        return this->NumberOfPoints - 1;
-    }
-    ClosedPolygonalChain::~ClosedPolygonalChain(){}
+ClosedPolygonalChain::ClosedPolygonalChain(int number, Point *array) : PolygonalChain(number + 1, array) {
+    this->array_of_points[number] = array[0];
+}
+ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &other) : PolygonalChain(other) {}
+
+int ClosedPolygonalChain::getN() const{
+    return this->number_of_points - 1;
+}
+ClosedPolygonalChain::~ClosedPolygonalChain(){}
 
 
-    Polygon::Polygon(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-    Polygon::Polygon(const Polygon &CopyPolygon) : ClosedPolygonalChain(CopyPolygon) {}
-    //todo copy-paster opeartor
-    Polygon& Polygon::operator=(const Polygon &ExistingPolygon){
-        if (&ExistingPolygon == this)
-            return *this;
-        delete []this->Array;
-        this->NumberOfPoints = ExistingPolygon.getN();
-        this->Array = new Point[this->NumberOfPoints];
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingPolygon.Array[i];
-        }
-        return *this;
+Polygon::Polygon(int number, Point *array) : ClosedPolygonalChain(number, array) {}
+Polygon::Polygon(const Polygon &other) : ClosedPolygonalChain(other) {}
+//fixed copy-paster opeartor
+double Polygon::area() const {
+    double p_area = 0;
+    //fixed Heron's formula is banned
+    if (this->getN() == 3)
+        p_area += triangle_area(array_of_points[0], array_of_points[1], array_of_points[2]);
+    else{
+        for (int i = 0; i < this->getN() - 2; ++i) {
+            p_area += triangle_area(array_of_points[i], array_of_points[i + 1], array_of_points[this->getN() - 1]);
     }
-    double Polygon::area() const {
-        double Area = 0;
-        //todo Heron's formula is banned
-        if (this->getN() == 3)
-            Area += triangle_area(Array[0], Array[1], Array[2]);
-        else{
-            for (int i = 0; i < this->getN() - 2; ++i) {
-            Area += triangle_area(Array[i], Array[i + 1], Array[this->getN() - 1]);
-        }
-        }
-        return Area;
     }
-    double Polygon::triangle_area(const Point& point1, const Point& point2, const Point& point3) {
-        double SideA, SideB, SideC, TriangleArea;
-        SideA = pow(pow(point1.getX() - point2.getX(), 2) + pow(point1.getY() - point2.getY(), 2), 0.5);
-        SideB = pow(pow(point1.getX() - point3.getX(), 2) + pow(point1.getY() - point3.getY(), 2), 0.5);
-        SideC = pow(pow(point2.getX() - point3.getX(), 2) + pow(point2.getY() - point3.getY(), 2), 0.5);
-        double HalfPerimeter = (SideA + SideB + SideC) / 2;
-        TriangleArea = sqrt(HalfPerimeter * (HalfPerimeter - SideA) * (HalfPerimeter - SideB) * (HalfPerimeter - SideC));
-        return TriangleArea;
-    }
-    Polygon::~Polygon(){}
+    return p_area;
+}
+double Polygon::triangle_area(const Point& point1, const Point& point2, const Point& point3) {
+    double t_area, cos, sin, coordinate_ax, coordinate_ay, coordinate_bx, coordinate_by;
+    coordinate_ax = point2.getX() - point1.getX();
+    coordinate_ay = point2.getY() - point1.getY();
+    coordinate_bx = point3.getX() - point1.getX();
+    coordinate_by = point3.getY() - point1.getY();
+    cos = ((coordinate_ax) * (coordinate_bx) + (coordinate_ay) * (coordinate_by)) / (sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sqrt(pow(coordinate_bx, 2) + pow(coordinate_by, 2)));
+    sin = sqrt(1 - pow(cos, 2));
+    t_area = 0.5 * sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sqrt(pow(coordinate_bx, 2) + pow(coordinate_by, 2)) * sin;
+    return t_area;
+}
+Polygon::~Polygon(){}
 
 
-    Triangle::Triangle(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-    Triangle::Triangle(const Triangle &CopyTriangle) : ClosedPolygonalChain(CopyTriangle) {}
-    Triangle& Triangle::operator=(const Triangle &ExistingTriangle){
-        if (&ExistingTriangle == this)
-            return *this;
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingTriangle.Array[i];
-        }
-        return *this;
-    }
-    //todo without sqrt
-    bool Triangle::hasRightAngle() const {
-        double SideA, SideB, SideC;
-        SideA = pow(pow(Array[0].getX() - Array[1].getX(), 2) + pow(Array[0].getY() - Array[1].getY(), 2), 0.5);
-        SideB = pow(pow(Array[0].getX() - Array[2].getX(), 2) + pow(Array[0].getY() - Array[2].getY(), 2), 0.5);
-        SideC = pow(pow(Array[1].getX() - Array[2].getX(), 2) + pow(Array[1].getY() - Array[2].getY(), 2), 0.5);
-        //todo return expression
-        if  (pow(SideA, 2) == pow(SideB, 2) + pow(SideC, 2) || pow(SideB, 2) == pow(SideA, 2) + pow(SideC, 2) || pow(SideC, 2) == pow(SideA, 2) + pow(SideB, 2))
-            return true;
-        else
-            return false;
-    }
-    double Triangle::area(){
-        double SideA, SideB, SideC, Area;
-        SideA = pow(pow(Array[0].getX() - Array[1].getX(), 2) + pow(Array[0].getY() - Array[1].getY(), 2), 0.5);
-        SideB = pow(pow(Array[0].getX() - Array[2].getX(), 2) + pow(Array[0].getY() - Array[2].getY(), 2), 0.5);
-        SideC = pow(pow(Array[1].getX() - Array[2].getX(), 2) + pow(Array[1].getY() - Array[2].getY(), 2), 0.5);
-        double HalfPerimeter = (SideA + SideB + SideC) / 2;
-        Area = sqrt(HalfPerimeter * (HalfPerimeter - SideA) * (HalfPerimeter - SideB) * (HalfPerimeter - SideC));
-        return Area;
-    }
-    Triangle::~Triangle(){}
+Triangle::Triangle(int number, Point *array) : ClosedPolygonalChain(number, array) {}
+Triangle::Triangle(const Triangle &other) : ClosedPolygonalChain(other) {}
+//fixed without sqrt
+bool Triangle::hasRightAngle() const {
+    double first_side_deg, second_side_deg, third_side_deg;
+    first_side_deg = pow(array_of_points[0].getX() - array_of_points[1].getX(), 2) + pow(array_of_points[0].getY() - array_of_points[1].getY(), 2);
+    second_side_deg = pow(array_of_points[0].getX() - array_of_points[2].getX(), 2) + pow(array_of_points[0].getY() - array_of_points[2].getY(), 2);
+    third_side_deg = pow(array_of_points[1].getX() - array_of_points[2].getX(), 2) + pow(array_of_points[1].getY() - array_of_points[2].getY(), 2);
+    //fixed return expression
+    return ((first_side_deg == second_side_deg + third_side_deg) || (second_side_deg == first_side_deg + third_side_deg) || (third_side_deg == first_side_deg + second_side_deg));
+}
+double Triangle::area(){
+    double t_area, cos, sin, coordinate_ax, coordinate_ay, coordinate_bx, coordinate_by;
+    coordinate_ax = array_of_points[1].getX() - array_of_points[0].getX();
+    coordinate_ay = array_of_points[1].getY() - array_of_points[0].getY();
+    coordinate_bx = array_of_points[2].getX() - array_of_points[0].getX();
+    coordinate_by = array_of_points[2].getY() - array_of_points[0].getY();
+    cos = ((coordinate_ax) * (coordinate_bx) + (coordinate_ay) * (coordinate_by)) / (sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sqrt(pow(coordinate_bx, 2) + pow(coordinate_by, 2)));
+    sin = sqrt(1 - pow(cos, 2));
+    t_area = 0.5 * sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sqrt(pow(coordinate_bx, 2) + pow(coordinate_by, 2)) * sin;
+    return t_area;
+}
+Triangle::~Triangle(){}
 
 
-    Trapezoid::Trapezoid(int numberOfPoints, Point *array) : ClosedPolygonalChain(numberOfPoints, array) {}
-    Trapezoid::Trapezoid(const Trapezoid &CopyTrapezoid) : ClosedPolygonalChain(CopyTrapezoid) {}
-    Trapezoid& Trapezoid::operator=(const Trapezoid &ExistingTrapezoid){
-        if (&ExistingTrapezoid == this)
-            return *this;
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingTrapezoid.Array[i];
-        }
-        return *this;
-    }
-    double Trapezoid::height() const {
-        double Height, cos, sin, CoordinateAX, CoordinateAY, CoordinateBX, CoordinateBY;
-        CoordinateAX = Array[1].getX() - Array[0].getX();
-        CoordinateAY = Array[1].getY() - Array[0].getY();
-        CoordinateBX = Array[3].getX() - Array[0].getX();
-        CoordinateBY = Array[3].getY() - Array[0].getY();
-        cos = ((CoordinateAX) * (CoordinateBX)  + (CoordinateAY) * (CoordinateBY)) / (sqrt(pow(CoordinateAX, 2) + pow(CoordinateAY, 2)) * sqrt(pow(CoordinateBX, 2) + pow(CoordinateBY, 2)));
-        sin = sqrt(1 - pow(cos, 2));
-        Height = sqrt(pow(CoordinateAX, 2) + pow(CoordinateAY, 2)) * sin;
-        return Height;
-    }
-    double Trapezoid::area() const{
-        double Area, SideA, SideB;
-        SideA = pow(pow(Array[0].getX() - Array[3].getX(), 2) + pow(Array[0].getY() - Array[3].getY(), 2), 0.5);
-        SideB = pow(pow(Array[1].getX() - Array[2].getX(), 2) + pow(Array[1].getY() - Array[2].getY(), 2), 0.5);
-        Area = this->height() * (SideA + SideB) / 2;
-        return Area;
-    }
-    Trapezoid::~Trapezoid(){}
+Trapezoid::Trapezoid(int number, Point *array) : ClosedPolygonalChain(number, array) {}
+Trapezoid::Trapezoid(const Trapezoid &other) : ClosedPolygonalChain(other) {}
+double Trapezoid::height() const {
+    double height, cos, sin, coordinate_ax, coordinate_ay, coordinate_bx, coordinate_by;
+    coordinate_ax = array_of_points[1].getX() - array_of_points[0].getX();
+    coordinate_ay = array_of_points[1].getY() - array_of_points[0].getY();
+    coordinate_bx = array_of_points[3].getX() - array_of_points[0].getX();
+    coordinate_by = array_of_points[3].getY() - array_of_points[0].getY();
+    cos = ((coordinate_ax) * (coordinate_bx) + (coordinate_ay) * (coordinate_by)) / (sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sqrt(pow(coordinate_bx, 2) + pow(coordinate_by, 2)));
+    sin = sqrt(1 - pow(cos, 2));
+    height = sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2)) * sin;
+    return height;
+}
+double Trapezoid::area() const{
+    double tr_area, first_side, second_side;
+    first_side = pow(pow(array_of_points[0].getX() - array_of_points[3].getX(), 2) + pow(array_of_points[0].getY() - array_of_points[3].getY(), 2), 0.5);
+    second_side = pow(pow(array_of_points[1].getX() - array_of_points[2].getX(), 2) + pow(array_of_points[1].getY() - array_of_points[2].getY(), 2), 0.5);
+    tr_area = this->height() * (first_side + second_side) / 2;
+    return tr_area;
+}
+Trapezoid::~Trapezoid(){}
 
-    //todo area and perimeter
-    RegularPolygon::RegularPolygon(int numberOfPoints, Point *array) : Polygon(numberOfPoints, array) {}
-    RegularPolygon::RegularPolygon(const RegularPolygon &CopyRegularPolygon) : Polygon(CopyRegularPolygon) {}
-    RegularPolygon& RegularPolygon::operator=(const RegularPolygon &ExistingRegularPolygon){
-        if (&ExistingRegularPolygon == this)
-            return *this;
-        delete []this->Array;
-        this->NumberOfPoints = ExistingRegularPolygon.getN();
-        this->Array = new Point[this->NumberOfPoints];
-        for (int i = 0; i < this->NumberOfPoints; ++i) {
-            this->Array[i] = ExistingRegularPolygon.Array[i];
-        }
-        return *this;
-    }
-    RegularPolygon::~RegularPolygon(){}
+//fixed area and perimeter
+RegularPolygon::RegularPolygon(int number, Point *array) : Polygon(number, array) {}
+RegularPolygon::RegularPolygon(const RegularPolygon &other) : Polygon(other) {}
+double RegularPolygon::getSide() const{
+    double coordinate_ax, coordinate_ay;
+    coordinate_ax = array_of_points[1].getX() - array_of_points[0].getX();
+    coordinate_ay = array_of_points[1].getY() - array_of_points[0].getY();
+    return sqrt(pow(coordinate_ax, 2) + pow(coordinate_ay, 2));
+}
+double RegularPolygon::perimeter() const{
+    return (number_of_points - 1) * getSide();
+}
+double RegularPolygon::area() const{
+    return (number_of_points - 1) * ((pow(getSide(), 2)) / (4 * tan(M_PI / (number_of_points - 1))));
+}
+RegularPolygon::~RegularPolygon(){}
