@@ -55,7 +55,7 @@ public:
     Triangle(const Triangle &CopyTriangle);
     using PolygonalChain::operator=;
     bool hasRightAngle() const;
-    double area();
+    float area();
     ~Triangle();
 };
 

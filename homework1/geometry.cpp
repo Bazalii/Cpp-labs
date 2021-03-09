@@ -128,8 +128,9 @@ bool Triangle::hasRightAngle() const {
     //fixed return expression
     return ((first_side_deg == second_side_deg + third_side_deg) || (second_side_deg == first_side_deg + third_side_deg) || (third_side_deg == first_side_deg + second_side_deg));
 }
-double Triangle::area(){
-    double t_area, cos, sin, coordinate_ax, coordinate_ay, coordinate_bx, coordinate_by;
+float Triangle::area(){
+    double cos, sin, coordinate_ax, coordinate_ay, coordinate_bx, coordinate_by;
+    float t_area;
     coordinate_ax = array_of_points[1].getX() - array_of_points[0].getX();
     coordinate_ay = array_of_points[1].getY() - array_of_points[0].getY();
     coordinate_bx = array_of_points[2].getX() - array_of_points[0].getX();
