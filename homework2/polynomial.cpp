@@ -214,7 +214,7 @@ ostream& operator<<(ostream &out, const Polynomial &existing_polynomial){
 }
 istream& operator>>(istream &in, Polynomial &existing_polynomial){
     in >> existing_polynomial.minimum_degree;
-    in >> existing_polynomial.minimum_degree;
+    in >> existing_polynomial.maximum_degree;
     for (int i = 0; i <= existing_polynomial.maximum_degree - existing_polynomial.minimum_degree; ++i) {
         in >> existing_polynomial.array_of_indexes[i];
     }

@@ -3,7 +3,9 @@
 #include <iostream>
 #include <sstream>
 
+
 using namespace std;
+
 class Polynomial{
 private:
     int minimum_degree, maximum_degree;
