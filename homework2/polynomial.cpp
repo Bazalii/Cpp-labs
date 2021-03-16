@@ -246,7 +246,7 @@ int& Polynomial::operator[](int index){
     return array_of_indexes[size - 1];
 }
 Polynomial::~Polynomial(){
-    delete this->array_of_indexes;
+    delete []this->array_of_indexes;
 }
 
 
