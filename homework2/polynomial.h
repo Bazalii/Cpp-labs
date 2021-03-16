@@ -20,6 +20,7 @@ public:
     friend bool operator!=(const Polynomial &, const Polynomial &);
     Polynomial operator+(const Polynomial &) const;
     Polynomial operator-(const Polynomial &) const;
+    //todo inside class
     friend Polynomial& operator+=(Polynomial &, const Polynomial &);
     friend Polynomial& operator-=(Polynomial &, const Polynomial &);
     Polynomial operator*(const Polynomial &) const;

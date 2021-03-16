@@ -27,6 +27,7 @@ Polynomial::Polynomial(const Polynomial &copy_polynomial){
 }
 double Polynomial::get(int number) const{
     double result = 0;
+    //todo get O(n)
     for (int i = this->minimum_degree; i <= this->maximum_degree; ++i) {
         result += this->array_of_indexes[i - this->minimum_degree] * pow(number, i);
     }
@@ -77,6 +78,7 @@ Polynomial Polynomial::operator-(const Polynomial &existing_polynomial) const{
     Polynomial new_polynomial { *this };
     return new_polynomial -= existing_polynomial;
 }
+//todo copy-paste +-
 Polynomial& operator+=(Polynomial &first_polynomial, const Polynomial &second_polynomial){
     int minimum, maximum, first_index, second_index;
     minimum = (first_polynomial.minimum_degree < second_polynomial.minimum_degree) ? first_polynomial.minimum_degree : second_polynomial.minimum_degree;
@@ -119,8 +121,10 @@ Polynomial Polynomial::operator*(const Polynomial &existing_polynomial) const{
     Polynomial new_polynomial { *this };
     return new_polynomial *= existing_polynomial;
 }
+//todo *=
 Polynomial operator*(const Polynomial &first_polynomial, int number){
     int *array = new int [first_polynomial.maximum_degree - first_polynomial.minimum_degree + 1];
+    //todo for_each
     for (int i = first_polynomial.minimum_degree; i <= first_polynomial.maximum_degree; ++i) {
         array[i - first_polynomial.minimum_degree] = first_polynomial.array_of_indexes[i - first_polynomial.minimum_degree] * number;
     }
