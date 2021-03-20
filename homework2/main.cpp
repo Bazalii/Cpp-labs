@@ -40,6 +40,13 @@ void PolynomialOperators() {
     assert(a[10] == 0);
     c[5] = 3;
     assert(c.get(4) == 3053.25);
+    assert((-c) == (-(-(-c))));
+    auto h = -c;
+    assert(c[5] == 3 && h[5] == -3);
+    assert((-c)[5] == -3);
+   	auto g = b;
+   	g[3] = 0;
+   	assert(g == b);
 }
 
 
