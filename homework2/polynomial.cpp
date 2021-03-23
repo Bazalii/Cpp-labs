@@ -36,7 +36,6 @@ double Polynomial::get(int number) const{
             value *= number;
         }
     }
-    //fixed get O(n)
     for_each(this->array_of_indexes, this->array_of_indexes + this->maximum_degree - this->minimum_degree + 1,[&](int &x){result += x * value; value *= number;});
     return result;
 }
@@ -85,6 +84,8 @@ Polynomial operator-(const Polynomial &first_polynomial, const Polynomial &secon
     Polynomial new_polynomial { first_polynomial };
     return new_polynomial -= second_polynomial;
 }
+
+//todo memory-leak
 Polynomial operator-(const Polynomial& existing_polynomial){
     int *array = new int[existing_polynomial.maximum_degree - existing_polynomial.minimum_degree + 1];
     for (int i = 0; i <= existing_polynomial.maximum_degree - existing_polynomial.minimum_degree; ++i) {
@@ -92,7 +93,6 @@ Polynomial operator-(const Polynomial& existing_polynomial){
     }
     return Polynomial(existing_polynomial.minimum_degree, existing_polynomial.maximum_degree, array);
 }
-//fixed copy-paste +-
 Polynomial& Polynomial::operator+=(const Polynomial &second_polynomial){
     int minimum, maximum, first_index, second_index;
     minimum = (this->minimum_degree < second_polynomial.minimum_degree) ? this->minimum_degree : second_polynomial.minimum_degree;
@@ -112,6 +112,8 @@ Polynomial& Polynomial::operator+=(const Polynomial &second_polynomial){
     *this = Polynomial(minimum, maximum, array);
     return *this;
 }
+
+//todo without creating new object
 Polynomial& Polynomial::operator-=(const Polynomial &second_polynomial){
     return *this += -(second_polynomial);
 }
@@ -119,11 +121,8 @@ Polynomial operator*(const Polynomial &first_polynomial, const Polynomial &secon
     Polynomial new_polynomial { first_polynomial };
     return new_polynomial *= second_polynomial;
 }
-//fixed *=
 Polynomial operator*(const Polynomial &first_polynomial, int number){
     Polynomial new_polynomial = Polynomial(0, 0, new int[1]{number});
-    //fixed for_each
-    /* added for_each where it is convenient and possible*/
     return new_polynomial *= first_polynomial;
 }
 Polynomial operator*(int number, const Polynomial &first_polynomial){
@@ -244,8 +243,3 @@ int& Polynomial::operator[](int index){
 Polynomial::~Polynomial(){
     delete []this->array_of_indexes;
 }
-
-
-
-
-

@@ -21,7 +21,6 @@ public:
     friend Polynomial operator+(const Polynomial &, const Polynomial &);
     friend Polynomial operator-(const Polynomial &, const Polynomial &);
     friend Polynomial operator-(const Polynomial&);
-    //fixed inside class
     Polynomial& operator+=(const Polynomial &);
     Polynomial& operator-=(const Polynomial &);
     friend Polynomial operator*(const Polynomial &, const Polynomial &);
