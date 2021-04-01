@@ -23,7 +23,7 @@ void Stop::set_streets(const string& input_string){
     }
 }
 void Stop::set_routes(const string& input_string){
-     if (!input_string.empty()){
+    if (!input_string.empty()){
         string help_string = input_string;
         int pos = 0;
         while (help_string.find(".") != -1)
