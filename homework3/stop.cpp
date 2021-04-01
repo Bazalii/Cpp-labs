@@ -7,16 +7,16 @@ void Stop::set_streets(const string& input_string){
     if (!input_string.empty()){
         string help_string = input_string;
         int pos = 0;
-        while (help_string.find(".") != -1)
-            help_string.replace(help_string.find("."), 1, "");
-        if (input_string.find(",") == -1){
+        while (help_string.find('.') != -1)
+            help_string.replace(help_string.find('.'), 1, "");
+        if (input_string.find(',') == -1){
             this->streets.push_back(help_string);
         }
         else{
-            while (help_string.find(",") != -1){
-                this->streets.push_back(help_string.substr(pos, help_string.find(",") - pos));
-                pos = help_string.find(",") + 1;
-                help_string.replace(help_string.find(","), 1, " ");
+            while (help_string.find(',') != -1){
+                this->streets.push_back(help_string.substr(pos, help_string.find(',') - pos));
+                pos = help_string.find(',') + 1;
+                help_string.replace(help_string.find(','), 1, " ");
             }
         this->streets.push_back(help_string.substr(pos, help_string.size() - pos));
         }
@@ -26,25 +26,27 @@ void Stop::set_routes(const string& input_string){
     if (!input_string.empty()){
         string help_string = input_string;
         int pos = 0;
-        while (help_string.find(".") != -1)
-            help_string.replace(help_string.find("."), 1, ",");
-        while (help_string.find(" ") != -1)
-            help_string.replace(help_string.find(" "), 1, "");
-        if (help_string.find(",") == -1){
+        while (help_string.find('.') != -1)
+            help_string.replace(help_string.find('.'), 1, ",");
+        while (help_string.find(' ') != -1)
+            help_string.replace(help_string.find(' '), 1, "");
+        if (help_string.find(',') == -1){
             this->routes.push_back(help_string);
         }
         else{
-            while (help_string.find(",") != -1){
-                this->routes.push_back(help_string.substr(pos, help_string.find(",") - pos));
-                pos = help_string.find(",") + 1;
-                help_string.replace(help_string.find(","), 1, " ");
+            while (help_string.find(',') != -1){
+                this->routes.push_back(help_string.substr(pos, help_string.find(',') - pos));
+                pos = help_string.find(',') + 1;
+                help_string.replace(help_string.find(','), 1, " ");
             }
             this->routes.push_back(help_string.substr(pos, help_string.size() - pos));
         }
     }
 }
 void Stop::set_coordinates(const string& input_string){
-    this->coordinates = make_pair(stod(input_string.substr(0, input_string.find(","))), stod(input_string.substr(input_string.find(",") + 1, input_string.size())));
+    this->coordinates = make_pair(
+            stod(input_string.substr(0, input_string.find(','))),
+            stod(input_string.substr(input_string.find(',') + 1, input_string.size())));
 }
 string Stop::get_transport(){
     return this->transport;

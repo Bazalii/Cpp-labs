@@ -7,7 +7,7 @@
 using namespace pugi;
 using namespace std;
 
-void all_statistics(map<string , pair<int, vector<double>>> &container, string place, Stop current_stop){
+void all_statistics(map<string , pair<int, vector<double>>> &container, const string& place, Stop current_stop){
     if (!container.contains(place)){
         container[place].first = 1;
         container[place].second.resize(3);
@@ -22,10 +22,10 @@ void all_statistics(map<string , pair<int, vector<double>>> &container, string p
     }
 }
 
-string find_maximum_stops(map<string , pair<int, vector<double>>> container){
+string find_maximum_stops(const map<string , pair<int, vector<double>>>& container){
     int maximum = 0;
     string name_of_maximum;
-    for (auto it : container){
+    for (const auto& it : container){
         if (it.second.first > maximum){
             maximum = it.second.first;
             name_of_maximum = it.first;
@@ -34,10 +34,10 @@ string find_maximum_stops(map<string , pair<int, vector<double>>> container){
     return name_of_maximum;
 }
 
-string find_maximum_length(map<string , pair<int, vector<double>>> container){
+string find_maximum_length(const map<string , pair<int, vector<double>>>& container){
     double maximum = 0;
     string name_of_maximum;
-    for (auto it : container){
+    for (const auto& it : container){
         if (it.second.second[2] > maximum){
             maximum = it.second.second[2];
             name_of_maximum = it.first;
@@ -65,12 +65,12 @@ int main() {
         }
     }
     for (Stop current : stoppages){
-        for(string street : current.get_streets())
+        for(const string& street : current.get_streets())
             if (!stops_of_the_street.contains(street) && street != "0")
                 stops_of_the_street[street].first = 1;
             else
                 stops_of_the_street[street].first += 1;
-        for (string route : current.get_routes()){
+        for (const string& route : current.get_routes()){
             if (current.get_transport() == "Автобус")
                 all_statistics(bus_stops_of_the_route, route, current);
             else if (current.get_transport() == "Троллейбус")
