@@ -10,9 +10,8 @@ using namespace std;
 void all_statistics(map<string , pair<int, vector<double>>> &container, const string& place, Stop current_stop){
     //fixed use unpacking for pairs
     //auto [x, y] = p;
-    if (!container.contains(place)){
+    if (!container.contains(place))
         container[place] = {1, {0, 0, 0}};
-    }
     else{
         auto& [number, array] = container[place];
         number += 1;
