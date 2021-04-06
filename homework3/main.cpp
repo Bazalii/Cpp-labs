@@ -14,12 +14,13 @@ void all_statistics(map<string , pair<int, vector<double>>> &container, const st
         container[place] = {1, {0, 0, 0}};
     else{
         auto& [number, array] = container[place];
+        auto [first_coordinate, second_coordinate] = current_stop.get_coordinates();
         number += 1;
         array[2] += sqrt(
-                pow(current_stop.get_coordinates().first - array[0], 2) +
-                pow(current_stop.get_coordinates().second -  array[1], 2));
-        array[0] = current_stop.get_coordinates().first;
-        array[1] = current_stop.get_coordinates().second;
+                pow(first_coordinate - array[0], 2) +
+                pow(second_coordinate -  array[1], 2));
+        array[0] = first_coordinate;
+        array[1] = second_coordinate;
     }
 }
 
@@ -70,9 +71,11 @@ int main() {
     for (Stop current : stoppages){
         for(const string& street : current.get_streets())
             if (!stops_of_the_street.contains(street) && street != "0")
-                stops_of_the_street[street].first = 1;
-            else
-                stops_of_the_street[street].first += 1;
+                stops_of_the_street[street] = {1, {}};
+            else{
+                auto& [number, array] = stops_of_the_street[street];
+                number += 1;
+            }
         for (const string& route : current.get_routes()){
             if (current.get_transport() == "Автобус")
                 all_statistics(bus_stops_of_the_route, route, current);
