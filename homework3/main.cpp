@@ -8,6 +8,8 @@ using namespace pugi;
 using namespace std;
 
 void all_statistics(map<string , pair<int, vector<double>>> &container, const string& place, Stop current_stop){
+    //todo use unpacking for pairs
+    //auto [x, y] = p;
     if (!container.contains(place)){
         container[place].first = 1;
         container[place].second.resize(3);
