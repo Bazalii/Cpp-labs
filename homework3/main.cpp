@@ -8,29 +8,30 @@ using namespace pugi;
 using namespace std;
 
 void all_statistics(map<string , pair<int, vector<double>>> &container, const string& place, Stop current_stop){
-    //todo use unpacking for pairs
+    //fixed use unpacking for pairs
     //auto [x, y] = p;
     if (!container.contains(place)){
-        container[place].first = 1;
-        container[place].second.resize(3);
+        container[place] = {1, {0, 0, 0}};
     }
     else{
-        container[place].first += 1;
-        container[place].second[2] += sqrt(
-                pow(current_stop.get_coordinates().first - container[place].second[0], 2) +
-                pow(current_stop.get_coordinates().second -  container[place].second[1], 2));
-        container[place].second[0] = current_stop.get_coordinates().first;
-        container[place].second[1] = current_stop.get_coordinates().second;
+        auto& [number, array] = container[place];
+        number += 1;
+        array[2] += sqrt(
+                pow(current_stop.get_coordinates().first - array[0], 2) +
+                pow(current_stop.get_coordinates().second -  array[1], 2));
+        array[0] = current_stop.get_coordinates().first;
+        array[1] = current_stop.get_coordinates().second;
     }
 }
 
 string find_maximum_stops(const map<string , pair<int, vector<double>>>& container){
     int maximum = 0;
     string name_of_maximum;
-    for (const auto& it : container){
-        if (it.second.first > maximum){
-            maximum = it.second.first;
-            name_of_maximum = it.first;
+    for (const auto& [name, statistic_pair] : container){
+        const auto& [number, array] = statistic_pair;
+        if (number > maximum){
+            maximum = number;
+            name_of_maximum = name;
         }
     }
     return name_of_maximum;
@@ -39,10 +40,11 @@ string find_maximum_stops(const map<string , pair<int, vector<double>>>& contain
 string find_maximum_length(const map<string , pair<int, vector<double>>>& container){
     double maximum = 0;
     string name_of_maximum;
-    for (const auto& it : container){
-        if (it.second.second[2] > maximum){
-            maximum = it.second.second[2];
-            name_of_maximum = it.first;
+    for (const auto& [name, statistic_pair] : container){
+        const auto& [number, array] = statistic_pair;
+        if (array[2] > maximum){
+            maximum = array[2];
+            name_of_maximum = name;
         }
     }
     return name_of_maximum;
