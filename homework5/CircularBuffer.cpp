@@ -80,8 +80,10 @@ void CircularBuffer<Type>::delLast(){
 }
 template<typename Type>
 void CircularBuffer<Type>::changeCapacity(int value){
-    if (value + 1 < this->size)
-        throw overflow_error("cannot pack all the elements");
+    if (value + 1 < this->size){
+        cout << "Cannot pack all the elements, because there are more elements than capacity that you entered: " << value << "So, the error is: ";
+        throw overflow_error("overflow error");
+    }
     else{
         Type *new_buffer = new Type[value + 1];
         int old_buf_begin = this->buf_begin;
@@ -96,9 +98,15 @@ void CircularBuffer<Type>::changeCapacity(int value){
 }
 template<typename Type>
 Type CircularBuffer<Type>::operator[](int index) const {
-    //todo more information in exception
-    if (index > (this->size - 2) || index < 0 || this->number_of_elements == 0)
+    //fixed more information in exception
+    if (this->number_of_elements == 0){
+        cout << "There are no elements in Circular Buffer. You tried to get value on place with number " << index << ". So, error is: ";
         throw out_of_range("out of range");
+    }
+    else if (index > (this->size - 2) || index < 0){
+        cout << "Your index: " << index << ". Index should be between 0 and " << this->number_of_elements - 1 << ". So, error is: ";
+        throw out_of_range("out of range");
+    }
     else{
         if (index + this->buf_begin >= size)
             return buffer[index + this->buf_begin - size];
@@ -108,8 +116,14 @@ Type CircularBuffer<Type>::operator[](int index) const {
 }
 template< typename Type>
 Type& CircularBuffer<Type>::operator[](int index){
-    if (index > (this->size - 2) || index < 0 || this->number_of_elements == 0)
+    if (this->number_of_elements == 0){
+        cout << "There are no elements in Circular Buffer. You tried to get value on place with number " << index << ". So, error is: ";
         throw out_of_range("out of range");
+    }
+    else if (index > (this->size - 2) || index < 0){
+        cout << "Your index: " << index << ". Index should be between 0 and " << this->number_of_elements - 1 << ". So, error is: ";
+        throw out_of_range("out of range");
+    }
     else{
         if (index + this->buf_begin >= size)
             return buffer[index + this->buf_begin - size];
@@ -128,4 +142,3 @@ template<typename Type>
 CircularBuffer<Type>::~CircularBuffer(){
     delete []this->buffer;
 }
-template class CircularBuffer<int>;
