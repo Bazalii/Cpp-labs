@@ -96,6 +96,7 @@ void CircularBuffer<Type>::changeCapacity(int value){
 }
 template<typename Type>
 Type CircularBuffer<Type>::operator[](int index) const {
+    //todo more information in exception
     if (index > (this->size - 2) || index < 0 || this->number_of_elements == 0)
         throw out_of_range("out of range");
     else{
