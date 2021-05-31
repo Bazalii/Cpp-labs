@@ -1,5 +1,6 @@
 #include "RubiksCube.h"
 
+
 RubiksCube::RubiksCube(){
     //We generate a solved Rubik's cube
     this->faces[0] = 0x00000000;
@@ -27,6 +28,9 @@ void RubiksCube::RotateFront(){
 void RubiksCube::RotateBack(){
 
 }
+void RubiksCube::RandomizedCube(){
+
+}
 bool RubiksCube::CubeIsSolved(){
     return faces[0] == 0x00000000 &&
     faces[1] == 0x11111111 &&
@@ -35,9 +39,21 @@ bool RubiksCube::CubeIsSolved(){
     faces[4] == 0x44444444 &&
     faces[5] == 0x55555555;
 }
-RubiksCube& RubiksCube::operator=(const RubiksCube& existing_rubiks_cube){
+bool BelongsToFirstGroup(){
+
+}
+bool BelongsSecondGroup(){
+
+}
+bool BelongsToThirdGroup() {
+
+}
+bool BelongsToFourthGroup(){
+
+}
+RubiksCube& RubiksCube::operator=(const RubiksCube& existing_cube){
     for (int i = 0; i < 6; ++i)
-        this->faces[i] = existing_rubiks_cube.faces[i];
+        this->faces[i] = existing_cube.faces[i];
     return *this;
 }
 RubiksCube::~RubiksCube(){
