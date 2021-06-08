@@ -2,8 +2,8 @@
 #define RUBICSCUBE_H
 #include <iostream>
 
-
 using namespace std;
+
 
 /* My Rubik's Cube in 2D be like:
 

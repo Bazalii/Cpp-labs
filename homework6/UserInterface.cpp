@@ -3,6 +3,8 @@
 #include <fstream>
 
 using namespace std;
+
+
 UI::UI(const RubiksCube& existing_cube){
     this->main_cube = existing_cube;
 }

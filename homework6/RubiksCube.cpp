@@ -60,9 +60,9 @@ void RubiksCube::UniversalRotate(const int first_side, const int *second_side, i
 }
 void RubiksCube::RotateUp(bool reverse){
     for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 2, 1, 4, 3 };
-        int offset_mask[4] = { 0, 0, 0, 0 };
-        UniversalRotate(0, index_side, offset_mask);
+        int indexes_of_faces[4] = { 2, 1, 4, 3 };
+        int mask[4] = { 0, 0, 0, 0 };
+        UniversalRotate(0, indexes_of_faces, mask);
     }
     if (!reverse)
         cout << "U ";
@@ -71,9 +71,9 @@ void RubiksCube::RotateUp(bool reverse){
 }
 void RubiksCube::RotateDown(bool reverse) {
     for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 2, 3, 4, 1 };
-        int offset_mask[4] = { 4, 4, 4, 4 };
-        UniversalRotate(5, index_side, offset_mask);
+        int indexes_of_faces[4] = { 2, 3, 4, 1 };
+        int mask[4] = { 4, 4, 4, 4 };
+        UniversalRotate(5, indexes_of_faces, mask);
     }
     if (!reverse)
         cout << "D ";
@@ -82,9 +82,9 @@ void RubiksCube::RotateDown(bool reverse) {
 }
 void RubiksCube::RotateLeft(bool reverse){
     for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 0, 2, 5, 4 };
-        int offset_mask[4] = { 6, 6, 6, 2 };
-        UniversalRotate(1, index_side, offset_mask);
+        int indexes_of_faces[4] = { 0, 2, 5, 4 };
+        int mask[4] = { 6, 6, 6, 2 };
+        UniversalRotate(1, indexes_of_faces, mask);
     }
     if (!reverse)
         cout << "L ";
@@ -93,9 +93,9 @@ void RubiksCube::RotateLeft(bool reverse){
 }
 void RubiksCube::RotateRight(bool reverse){
      for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 2, 0, 4, 5 };
-        int offset_mask[4] = { 2, 2, 6, 2 };
-        UniversalRotate(3, index_side, offset_mask);
+        int indexes_of_faces[4] = { 2, 0, 4, 5 };
+        int mask[4] = { 2, 2, 6, 2 };
+        UniversalRotate(3, indexes_of_faces, mask);
     }
      if (!reverse)
         cout << "R ";
@@ -104,9 +104,9 @@ void RubiksCube::RotateRight(bool reverse){
 }
 void RubiksCube::RotateFront(bool reverse){
     for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 1, 0, 3, 5 };
-        int offset_mask[4] = { 2, 4, 6, 0 };
-        UniversalRotate(2, index_side, offset_mask);
+        int indexes_of_faces[4] = { 1, 0, 3, 5 };
+        int mask[4] = { 2, 4, 6, 0 };
+        UniversalRotate(2, indexes_of_faces, mask);
     }
     if (!reverse)
         cout << "F ";
@@ -115,9 +115,9 @@ void RubiksCube::RotateFront(bool reverse){
 }
 void RubiksCube::RotateBack(bool reverse){
     for (int i = 0; reverse ? i < 3 : i < 1; ++i) {
-        int index_side[4] = { 0, 1, 5, 3 };
-        int offset_mask[4] = { 0, 6, 4, 2 };
-        UniversalRotate(4, index_side, offset_mask);
+        int indexes_of_faces[4] = { 0, 1, 5, 3 };
+        int mask[4] = { 0, 6, 4, 2 };
+        UniversalRotate(4, indexes_of_faces, mask);
     }
     if (!reverse)
         cout << "B ";
