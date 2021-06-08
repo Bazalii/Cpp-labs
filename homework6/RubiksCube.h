@@ -7,23 +7,23 @@ using namespace std;
 
 /* My Rubik's Cube in 2D be like:
 
-              1   2   3
+            0   1   2
 
-              4   R   5
+            7   W   3
 
-              6   7   8
+            6   5   4
 
- 9  10  11   12  13  14   15  16  17    18  19  20
+0   1   2   0   1   2   0   1   2    0   1   2
 
-21   B  22   23   W  24   25   G  26    27   Y  28
+7   B   3   7   R   3   7   G   3    7   O   3
 
-29  30  31   32  33  34   35  36  37    38  39  40
+6   5   4   6   5   4   6   5   4    6   5   4
 
-             41  42  43
+            0   1   2
 
-             44   O  45
+            7   Y   3
 
-             46  47  48
+            6   5   4
 */
 
 
@@ -31,24 +31,33 @@ using namespace std;
 class RubiksCube{
 private:
     int32_t *faces = new int32_t[6];
-    void rotate();
 public:
     RubiksCube();
-    void RotateUp();
-    void RotateDown();
-    void RotateLeft();
-    void RotateRight();
-    void RotateFront();
-    void RotateBack();
+    static uint32_t SetupEdge(uint32_t, int, int);
+    void UniversalRotate(int, const int*, int*);
+    void WhiteRotation(int);
+    int GetColor(int, int);
+    void RotateUp(bool);
+    void RotateDown(bool);
+    void RotateLeft(bool);
+    void RotateRight(bool);
+    void RotateFront(bool);
+    void RotateBack(bool);
+    void Flower();
+    void Cross();
+    void PifPuf();
+    void MiddleLayer();
+    void DownCross();
+    void TrueDownCross();
+    void LastLayer();
     void RandomizedCube();
     bool CubeIsSolved();
-    bool BelongsToFirstGroup();
-    bool BelongsSecondGroup();
-    bool BelongsToThirdGroup();
-    bool BelongsToFourthGroup();
-    RubiksCube& operator=(const RubiksCube&);
+    friend ostream& operator<<(ostream&, RubiksCube&);
+    friend istream& operator>>(istream&, RubiksCube&);
     ~RubiksCube();
 };
 
 
 #endif
+
+
