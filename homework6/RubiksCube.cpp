@@ -23,13 +23,12 @@ uint32_t RubiksCube::SetupEdge(uint32_t edge, int first_position, int second_pos
     else if (second_position == 6)
         edge = (((edge & (0xFF000000 >> first_position * 4)) >> (second_position - first_position) * 4) |
                 (edge & (0x00F00000 >> first_position * 4)) << (first_position + 2) * 4);
-
-    else if (abs(first_position - second_position) == 2) {
+    else if (abs(second_position - first_position) == 2) {
         first_position > second_position ?
             edge = edge << 8 :
             edge = edge >> 8;
     }
-    else if (abs(first_position - second_position) == 4) {
+    else if (abs(second_position - first_position) == 4) {
         first_position > second_position ?
             edge = edge << 16 :
             edge = edge >> 16;
@@ -362,27 +361,23 @@ void RubiksCube::PifPuf() {
                 }
             }
         }
-//        if (counter == 2){
-//            this->Print();
-//            system("pause");
-//        }
-        int color1, color2;
+        int first_color, second_color;
         //on down
         if (GetColor(5, 0) == 0 || GetColor(1, 4) == 0 || GetColor(2, 6) == 0){
             if(GetColor(5, 0) == 0)
-                color1 = GetColor(1, 4), color2 = GetColor(2, 6);
+                first_color = GetColor(1, 4), second_color = GetColor(2, 6);
             else if(GetColor(1, 4) == 0)
-                color1 = GetColor(5, 0), color2 = GetColor(2, 6);
+                first_color = GetColor(5, 0), second_color = GetColor(2, 6);
             else if(GetColor(2, 6) == 0)
-                color1 = GetColor(5, 0), color2 = GetColor(1, 4);
-            if (color1 == 1 && color2 == 2 || color1 == 2 && color2 == 1){
+                first_color = GetColor(5, 0), second_color = GetColor(1, 4);
+            if (first_color == 1 && second_color == 2 || first_color == 2 && second_color == 1){
                 while(GetColor(0, 6) != 0){
                     this->RotateFront(true);
                     this->RotateDown(true);
                     this->RotateFront(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 2 && color2 == 3 || color1 == 3 && color2 == 2){
+            } else if (first_color == 2 && second_color == 3 || first_color == 3 && second_color == 2){
                 this->RotateDown(false);
                 while(GetColor(0, 4) != 0){
                     this->RotateRight(true);
@@ -390,7 +385,7 @@ void RubiksCube::PifPuf() {
                     this->RotateRight(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 3 && color2 == 4 || color1 == 4 && color2 == 3){
+            } else if (first_color == 3 && second_color == 4 || first_color == 4 && second_color == 3){
                 this->RotateDown(false);
                 this->RotateDown(false);
                 while(GetColor(0, 2) != 0){
@@ -399,7 +394,7 @@ void RubiksCube::PifPuf() {
                     this->RotateBack(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 1 && color2 == 4 || color1 == 4 && color2 == 1){
+            } else if (first_color == 1 && second_color == 4 || first_color == 4 && second_color == 1){
                 this->RotateDown(true);
                 while(GetColor(0, 0) != 0){
                     this->RotateLeft(true);
@@ -411,12 +406,12 @@ void RubiksCube::PifPuf() {
         }
         if (GetColor(5, 2) == 0 || GetColor(2, 4) == 0 || GetColor(3, 6) == 0){
             if(GetColor(5, 2) == 0)
-                color1 = GetColor(2, 4), color2 = GetColor(3, 6);
+                first_color = GetColor(2, 4), second_color = GetColor(3, 6);
             else if(GetColor(2, 4) == 0)
-                color1 = GetColor(5, 2), color2 = GetColor(3, 6);
+                first_color = GetColor(5, 2), second_color = GetColor(3, 6);
             else if(GetColor(3, 6) == 0)
-                color1 = GetColor(5, 2), color2 = GetColor(2, 4);
-            if (color1 == 1 && color2 == 2 || color1 == 2 && color2 == 1){
+                first_color = GetColor(5, 2), second_color = GetColor(2, 4);
+            if (first_color == 1 && second_color == 2 || first_color == 2 && second_color == 1){
                 this->RotateDown(true);
                 while(GetColor(0, 6) != 0){
                     this->RotateFront(true);
@@ -424,14 +419,14 @@ void RubiksCube::PifPuf() {
                     this->RotateFront(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 2 && color2 == 3 || color1 == 3 && color2 == 2){
+            } else if (first_color == 2 && second_color == 3 || first_color == 3 && second_color == 2){
                 while(GetColor(0, 4) != 0){
                     this->RotateRight(true);
                     this->RotateDown(true);
                     this->RotateRight(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 3 && color2 == 4 || color1 == 4 && color2 == 3){
+            } else if (first_color == 3 && second_color == 4 || first_color == 4 && second_color == 3){
                 this->RotateDown(false);
                 while(GetColor(0, 2) != 0){
                     this->RotateBack(true);
@@ -439,7 +434,7 @@ void RubiksCube::PifPuf() {
                     this->RotateBack(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 1 && color2 == 4 || color1 == 4 && color2 == 1){
+            } else if (first_color == 1 && second_color == 4 || first_color == 4 && second_color == 1){
                 this->RotateDown(false);
                 this->RotateDown(false);
                 while(GetColor(0, 0) != 0){
@@ -452,12 +447,12 @@ void RubiksCube::PifPuf() {
         }
         if (GetColor(5, 4) == 0 || GetColor(3, 4) == 0 || GetColor(4, 6) == 0){
             if(GetColor(5, 4) == 0)
-                color1 = GetColor(3, 4), color2 = GetColor(4, 6);
+                first_color = GetColor(3, 4), second_color = GetColor(4, 6);
             else if(GetColor(3, 4) == 0)
-                color1 = GetColor(5, 4), color2 = GetColor(4, 6);
+                first_color = GetColor(5, 4), second_color = GetColor(4, 6);
             else if(GetColor(4, 6) == 0)
-                color1 = GetColor(5, 4), color2 = GetColor(3, 4);
-            if (color1 == 1 && color2 == 2 || color1 == 2 && color2 == 1){
+                first_color = GetColor(5, 4), second_color = GetColor(3, 4);
+            if (first_color == 1 && second_color == 2 || first_color == 2 && second_color == 1){
                 this->RotateDown(false);
                 this->RotateDown(false);
                 while(GetColor(0, 6) != 0){
@@ -466,7 +461,7 @@ void RubiksCube::PifPuf() {
                     this->RotateFront(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 2 && color2 == 3 || color1 == 3 && color2 == 2){
+            } else if (first_color == 2 && second_color == 3 || first_color == 3 && second_color == 2){
                 this->RotateDown(true);
                 while(GetColor(0, 4) != 0){
                     this->RotateRight(true);
@@ -474,14 +469,14 @@ void RubiksCube::PifPuf() {
                     this->RotateRight(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 3 && color2 == 4 || color1 == 4 && color2 == 3){
+            } else if (first_color == 3 && second_color == 4 || first_color == 4 && second_color == 3){
                 while(GetColor(0, 2) != 0){
                     this->RotateBack(true);
                     this->RotateDown(true);
                     this->RotateBack(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 1 && color2 == 4 || color1 == 4 && color2 == 1){
+            } else if (first_color == 1 && second_color == 4 || first_color == 4 && second_color == 1){
                 this->RotateDown(false);
                 while(GetColor(0, 0) != 0){
                     this->RotateLeft(true);
@@ -493,12 +488,12 @@ void RubiksCube::PifPuf() {
         }
         if (GetColor(5, 6) == 0 || GetColor(4, 4) == 0 || GetColor(1, 6) == 0){
             if(GetColor(5, 6) == 0)
-                color1 = GetColor(4, 4), color2 = GetColor(1, 6);
+                first_color = GetColor(4, 4), second_color = GetColor(1, 6);
             else if(GetColor(4, 4) == 0)
-                color1 = GetColor(5, 6), color2 = GetColor(1, 6);
+                first_color = GetColor(5, 6), second_color = GetColor(1, 6);
             else if(GetColor(1, 6) == 0)
-                color1 = GetColor(5, 6), color2 = GetColor(4, 4);
-            if (color1 == 1 && color2 == 2 || color1 == 2 && color2 == 1){
+                first_color = GetColor(5, 6), second_color = GetColor(4, 4);
+            if (first_color == 1 && second_color == 2 || first_color == 2 && second_color == 1){
                 this->RotateDown(false);
                 while(GetColor(0, 6) != 0){
                     this->RotateFront(true);
@@ -506,7 +501,7 @@ void RubiksCube::PifPuf() {
                     this->RotateFront(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 2 && color2 == 3 || color1 == 3 && color2 == 2){
+            } else if (first_color == 2 && second_color == 3 || first_color == 3 && second_color == 2){
                 this->RotateDown(false);
                 this->RotateDown(false);
                 while(GetColor(0, 4) != 0){
@@ -515,7 +510,7 @@ void RubiksCube::PifPuf() {
                     this->RotateRight(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 3 && color2 == 4 || color1 == 4 && color2 == 3){
+            } else if (first_color == 3 && second_color == 4 || first_color == 4 && second_color == 3){
                 this->RotateDown(true);
                 while(GetColor(0, 2) != 0){
                     this->RotateBack(true);
@@ -523,7 +518,7 @@ void RubiksCube::PifPuf() {
                     this->RotateBack(false);
                     this->RotateDown(false);
                 }
-            } else if (color1 == 1 && color2 == 4 || color1 == 4 && color2 == 1){
+            } else if (first_color == 1 && second_color == 4 || first_color == 4 && second_color == 1){
                 while(GetColor(0, 0) != 0){
                     this->RotateLeft(true);
                     this->RotateDown(true);
@@ -1074,16 +1069,16 @@ void RubiksCube::DownCross(){
     }
 }
 void RubiksCube::TrueDownCross(){
-    int counter1 = 0, face = 1;
-    while (counter1 < 4) {
+    int counter = 0, face = 1;
+    while (counter < 4) {
         while (GetColor(face, 5) != face && face <= 3)
             this->RotateDown(false);
-        counter1 = 0;
+        counter = 0;
         for (int i = 1; i <= 4; ++i) {
             if (GetColor(i, 5) == i)
-                counter1 += 1;
+                counter += 1;
         }
-        if (counter1 == 2 && face == 1) {
+        if (counter == 2 && face == 1) {
             if (GetColor(4, 5) == 4) {
                 this->RotateLeft(false);
                 this->RotateDown(false);
@@ -1119,7 +1114,7 @@ void RubiksCube::TrueDownCross(){
                 face = 0;
             }
         }
-        if (counter1 == 2 && face == 2) {
+        if (counter == 2 && face == 2) {
             if (GetColor(1, 5) == 1) {
                 this->RotateDown(true);
                 this->RotateLeft(false);
@@ -1161,7 +1156,7 @@ void RubiksCube::TrueDownCross(){
                 face = 0;
             }
         }
-        if (counter1 == 2 && face == 3) {
+        if (counter == 2 && face == 3) {
             if (GetColor(1, 5) == 1) {
                 this->RotateDown(false);
                 this->RotateDown(false);

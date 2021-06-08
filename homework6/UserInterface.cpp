@@ -7,7 +7,7 @@ UI::UI(const RubiksCube& existing_cube){
     this->main_cube = existing_cube;
 }
 void UI::exit(){
-    cout << "Thank you for choosing our Rubik's cube solver" << endl;
+    cout << "Thank you for choosing my Rubik's cube solver" << endl;
 }
 void UI::save(const string& file_name){
     ofstream output(file_name);
@@ -107,7 +107,32 @@ void UI::solve(const string& file_name){
 }
 void UI::start(){
     string command, load_name, save_name, face;
-    cout << "Hello! First of all please type the name of loading file and saving file in format: name + enter + name" << endl;
+    cout << "Hello! I implemented universal algorithm for solving Rubik's Cube." << endl;
+    cout << "It performs consistent moves from one position to the other:" << endl;
+    cout << "Flower -> Cross -> PifPuf -> MiddleLayer -> DownCross -> TrueDownCross -> LastLayer" << endl;
+    cout << "It is rather big to implement, because there are many positions that should be considered." << endl;
+    cout << "However it has its own advantages over other 'clever' algorithms." << endl;
+    cout << "Firstly, you have to consider many positions, but you don't have to think about difficult moves." << endl;
+    cout << "For example, in Thistlethwaite's algorithm you have to come up with a solution how to move from one group to the other " << endl;
+    cout << "and you also have to solve the problem with belongings to groups and these two problems are rather complicated." << endl;
+    cout << "The same can be said about Korf's Optimal Algorithm, which is the hardest to implement out of these three." << endl;
+    cout << "Secondly, my algorithm is the fastest when we talk about time limits, because it comes through several if statements." << endl;
+    cout << "It performs the solution within a split second while others can work for several minutes. " << endl;
+    cout << "It is worth mentioning that the solution, made with universal algorithm, is not optimal, but it is working and" << endl;
+    cout << "usually it is not much longer than the solution, made with Thistlethwaite's 52-moves algorithm." << endl;
+    cout << "So, in my opinion, it is the best algorithm to implement in our case." << endl;
+    cout << "My Rubik's Cube in 2D looks like:" << endl << endl;
+    cout << "            0   1   2" << endl << endl;
+    cout << "            7   W   3" << endl << endl;
+    cout << "            6   5   4" << endl << endl;
+    cout << "0   1   2   0   1   2   0   1   2   0   1   2" << endl << endl;
+    cout << "7   B   3   7   R   3   7   G   3   7   O   3" << endl << endl;
+    cout << "6   5   4   6   5   4   6   5   4   6   5   4" << endl << endl;
+    cout << "            0   1   2" << endl << endl;
+    cout << "            7   Y   3" << endl << endl;
+    cout << "            6   5   4" << endl << endl;
+    cout << "Let's move on to main program." << endl;
+    cout << "First of all please type the name of loading file and saving file in format: name + enter + name" << endl;
     cout << "Name of the loading file: ";
     cin >> load_name;
     cout << endl;
